@@ -18,6 +18,9 @@ Testing commands:
 
 import argparse
 import sys
+import litellm
+import os
+from framework.llm import LiteLLMProvider
 
 
 def main():
@@ -34,11 +37,17 @@ def main():
 
     # Register runner commands (run, info, validate, list, dispatch, shell)
     from framework.runner.cli import register_commands
+
     register_commands(subparsers)
 
     # Register testing commands (test-run, test-debug, test-list, test-stats)
     from framework.testing.cli import register_testing_commands
+
     register_testing_commands(subparsers)
+
+    # Register stream command
+    from framework.runtime.websocket_cli import register_stream_command
+    register_stream_command(subparsers)
 
     args = parser.parse_args()
 
